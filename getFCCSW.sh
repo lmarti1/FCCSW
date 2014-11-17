@@ -45,6 +45,6 @@ echo "Installation complete"
 cd $FCCSW/build.x86_64-slc6-gcc48-opt
 
 echo "Starting tests"
-# ctest -D Nightly
+ctest -D Nightly
 
 echo "all done"
