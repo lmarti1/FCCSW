@@ -12,3 +12,6 @@ find_package(GaudiProject)
 #                  [DATA pkg1 [VERSION vers1] [pkg2 ...])
 gaudi_project(FCCSW HEAD
               USE Gaudi v25r2)
+
+# Add Testing infrastructure
+include( CTest )

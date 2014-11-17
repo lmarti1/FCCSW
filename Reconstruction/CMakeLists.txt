@@ -14,3 +14,4 @@ gaudi_add_module(Reconstruction
                  INCLUDE_DIRS FastJet ROOT
                  LINK_LIBRARIES Fastjet ROOT GaudiAlgLib DataObjects)
 
+gaudi_add_test(QMTest QMTEST)
