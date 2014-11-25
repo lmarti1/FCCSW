@@ -1,16 +1,8 @@
 #!/bin/bash
 
 # will download and install FCCSW and GAUDI
-# git account required with your copy of FCCSW
 
 echo "Starting setup"
-
-# create new folder
-DATE=`date +%Y-%m-%d_%H-%M`
-f_name="FCC_"$DATE
-echo "Creating folder FCC_"$DATE
-mkdir $f_name
-cd $f_name
 
 # create FCC directory
 mkdir FCC
@@ -43,7 +35,7 @@ make -j 12
 echo "Installation complete"
 
 # moving over to tests here
-cd $FCCSW/build.x86_64-slc6-gcc48-opt
+cd $FCCSW/build.$CMTCONFIG
 
 echo "Starting tests"
 #ctest -D Nightly
