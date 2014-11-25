@@ -38,8 +38,7 @@ echo "Installation complete"
 cd $FCCSW/build.$CMTCONFIG
 
 echo "Starting tests"
-#ctest -D Nightly
-# Local for now
-ctest
+ctest -D Nightly
+
 
 echo "all done"
