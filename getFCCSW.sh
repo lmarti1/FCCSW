@@ -29,7 +29,7 @@ export FCCSW=$FCCBASE/FCCSW
 
 # set environment for FCC
 cd $FCCSW
-source init.sh
+source ./init.sh
 
 # Compile gaudi first
 cd $GAUDI
@@ -46,6 +46,8 @@ echo "Installation complete"
 cd $FCCSW/build.x86_64-slc6-gcc48-opt
 
 echo "Starting tests"
-ctest -D Nightly
+#ctest -D Nightly
+# Local for now
+ctest
 
 echo "all done"
