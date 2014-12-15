@@ -35,8 +35,10 @@ export PYTHONPATH=/afs/cern.ch/lhcb/software/releases/LBSCRIPTS/LBSCRIPTS_v8r0/I
 export PATH=/afs/cern.ch/lhcb/software/releases/LBSCRIPTS/LBSCRIPTS_v8r0/InstallArea/scripts:$PATH
 export CMTROOT=$INSTALL_HOME/cmt/v1r20p20090520/$CMTCONFIG/CMT/v1r20p20090520
 cd $CMTROOT
-sh ./src/setup.sh
+source ./src/setup.sh
 export PATH=$CMTROOT/$CMTBIN:$PATH
+#paths set?
+which cmt
 
 # flex and bison for doxygen. 
 cd $INSTALL_HOME
