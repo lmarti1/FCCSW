@@ -17,10 +17,10 @@ fi
 export PATH=/afs/cern.ch/sw/lcg/contrib/CMake/2.8.12.2/Linux-i386/bin:$PATH
 export HEPTOOLS_VERSION=dev2
 #export CMAKEFLAGS='-DCMAKE_USE_CCACHE=ON'
-if [ -d $1/cmake$HEPTOOLS_VERSION ]; then
+if [ -d $1/LCG_$HEPTOOLS_VERSION ]; then
     echo "Path to LCG directory is "$1/LCG_$HEPTOOLS_VERSION
 else
-    echo "Need to pass path to the LCG directory"
+    echo "ERROR: Need to pass path to the LCG directory"
     return 1
 fi
 export CMAKE_PREFIX_PATH=$GAUDI/cmake:$FCCBASE:$1
