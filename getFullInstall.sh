@@ -1,7 +1,6 @@
 #!/bin/bash
 
 echo "Starting setup. Will get the full stack of the software"
-
 export ROOT_INSTALL_DIR=$PWD
 
 # for more info on LCG see 
@@ -18,8 +17,9 @@ source /afs/cern.ch/sw/lcg/external/gcc/4.8/x86_64-slc6-gcc48-opt/setup.sh
 export CC=/afs/cern.ch/sw/lcg/contrib/gcc/4.8.1/x86_64-slc6-gcc48-opt/bin/gcc
 export CXX=/afs/cern.ch/sw/lcg/contrib/gcc/4.8.1/x86_64-slc6-gcc48-opt/bin/g++
 
-# use FCC-2 toolchain
-cmake -DCMAKE_INSTALL_PREFIX=../lcgcmake-install -DLCG_VERSION=FCC-2 ../lcgcmake
+# use toolchain 
+export TOOLCHAIN_VERSION=FCC-2
+cmake -DCMAKE_INSTALL_PREFIX=../lcgcmake-install -DLCG_VERSION=$TOOLCHAIN_VERSION ../lcgcmake
 
 # install a set of packages
 make -j 4 Boost
@@ -37,8 +37,6 @@ export CMTROOT=$INSTALL_HOME/cmt/v1r20p20090520/$CMTCONFIG/CMT/v1r20p20090520
 cd $CMTROOT
 source ./src/setup.sh
 export PATH=$CMTROOT/$CMTBIN:$PATH
-#paths set?
-which cmt
 
 # flex and bison for doxygen. 
 cd $INSTALL_HOME
@@ -70,15 +68,15 @@ make -j 4 HepPDT
 
 # This is some patchwork to be able to compile CLHEP and gaudi.
 # add CLHEP 1.9 if not there already
-export TOOLCHAIN_FCC2=$INSTALL_HOME/../lcgcmake/cmake/toolchain/heptools-FCC-2.cmake
-grep "CLHEP" $TOOLCHAIN_FCC2 | grep -q "1.9"
+export TOOLCHAIN_FILE=$INSTALL_HOME/../lcgcmake/cmake/toolchain/heptools-$TOOLCHAIN_VERSION.cmake
+grep "CLHEP" $TOOLCHAIN_FILE | grep -q "1.9"
 if ! [ $? -eq 0 ]; then 
   echo "Adding CLHEP 1.9"
-  sed 's/.*LCG_external_package(CLHEP*/LCG_external_package(CLHEP             1.9.4.7                   clhep          )\n&/' $TOOLCHAIN_FCC2 >> outf.txt
-  cp outf.txt $TOOLCHAIN_FCC2
+  sed 's/.*LCG_external_package(CLHEP*/LCG_external_package(CLHEP             1.9.4.7                   clhep          )\n&/' $TOOLCHAIN_FILE >> outf.txt
+  cp outf.txt $TOOLCHAIN_FILE
   rm outf.txt
   echo "Added CLHEP 1.9"
-  cmake -DCMAKE_INSTALL_PREFIX=../lcgcmake-install -DLCG_VERSION=FCC-2 ../lcgcmake
+  cmake -DCMAKE_INSTALL_PREFIX=../lcgcmake-install -DLCG_VERSION=$TOOLCHAIN_VERSION ../lcgcmake
   make -j 4 CLHEP-1.9.4.7
   # use 1.9 for RELAX
   export PATH=$INSTALL_HOME/clhep/1.9.4.7/x86_64-slc6-gcc48-opt/bin:$PATH
@@ -86,9 +84,9 @@ if ! [ $? -eq 0 ]; then
   source $INSTALL_HOME/ROOT/5.34.19/$CMTCONFIG/bin/thisroot.sh 
   export CMAKE_INCLUDE_PATH=$INSTALL_HOME/clhep/1.9.4.7/$CMTCONFIG/include
   export CMAKE_LIBRARY_PATH=$INSTALL_HOME/clhep/1.9.4.7/$CMTCONFIG/lib
-  cmake -DCMAKE_INSTALL_PREFIX=../lcgcmake-install -DLCG_VERSION=FCC-2 ../lcgcmake
+  cmake -DCMAKE_INSTALL_PREFIX=../lcgcmake-install -DLCG_VERSION=$TOOLCHAIN_VERSION ../lcgcmake
 fi
-unset TOOLCHAIN_FCC2
+unset TOOLCHAIN_FILE
 
 # Can now complie RELAX and rest of packages
 make -j 4 RELAX
@@ -100,6 +98,7 @@ make -j 4 fastjet
 cd $INSTALL_HOME
 
 # create summary files LCG_* for usage with FCC software
+# $HEPTOOLS_VERSION is dev2
 python ../lcgcmake/cdash/extract_LCG_summary.py . $LCGPLAT dev2 RELEASE
 
 # need a symbolic link to complete the LCG structure
@@ -118,9 +117,8 @@ git clone -b fcc_test https://github.com/lmarti1/FCCSW.git FCCSW
 export FCCSW=$FCCBASE/FCCSW
 cd $FCCSW
 
-# TODO: did not upload init script yet. copy one from old build
-cp /mnt/build/testbuild/init_own_stack.sh init.sh
-source ./init.sh
+# Set paths to this SW stack.
+source ./init_custom_SWStack.sh $ROOT_INSTALL_DIR
 cd $GAUDI
 make -j 12
 make install 
@@ -132,7 +130,7 @@ echo "Installation complete"
 # moving over to tests here
 cd $FCCSW/build.$CMTCONFIG
 echo "Starting tests"
-#ctest -D Experimental
+ctest -D Experimental
 echo "all done"
 
 # cleanup variables
