@@ -115,7 +115,7 @@ cd FCC
 export FCCBASE=$PWD
 git clone -b dev/hive  http://cern.ch/gaudi/GaudiMC.git GAUDI/GAUDI_v25r2
 export GAUDI=$FCCBASE/GAUDI/GAUDI_v25r2
-git clone -b fcc_test https://github.com/lmarti1/FCCSW.git FCCSW
+git clone https://github.com/HEP-FCC/FCCSW.git FCCSW
 export FCCSW=$FCCBASE/FCCSW
 cd $FCCSW
 
