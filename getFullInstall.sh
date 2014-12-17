@@ -1,6 +1,8 @@
 #!/bin/bash
 
-echo "Starting setup. Will get the full stack of the software"
+# Will get the full stack of the software
+
+echo "Starting setup."
 export ROOT_INSTALL_DIR=$PWD
 
 # for more info on LCG see 
@@ -88,7 +90,7 @@ if ! [ $? -eq 0 ]; then
 fi
 unset TOOLCHAIN_FILE
 
-# Can now complie RELAX and rest of packages
+# Can now compile RELAX and rest of packages
 make -j 4 RELAX
 make -j 4 tcmalloc
 make -j 4 libunwind
@@ -130,7 +132,7 @@ echo "Installation complete"
 # moving over to tests here
 cd $FCCSW/build.$CMTCONFIG
 echo "Starting tests"
-ctest -D Experimental
+ctest -D Nightly
 echo "all done"
 
 # cleanup variables

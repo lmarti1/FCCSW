@@ -1,4 +1,8 @@
+****************************************************************************
 Brief instructions on how to add and run tests.
+
+Initial setup for FCCSW lmarti@lhep.unibe.ch
+****************************************************************************
 
 The testing is based on the integrated testing functionality of CMake: CTest.
 
@@ -7,8 +11,10 @@ The testing is based on the integrated testing functionality of CMake: CTest.
 ctest -N
     Run with:
 ctest
-    or to send the results to the Dashboard (http://cdash.cern.ch/index.php?project=FCC):
+    or to send the results to the Dashboard at 
+    http://cdash.cern.ch/index.php?project=FCC:
 ctest -D Experimental
+    Configuration for dashboard can be found in $FCCSW/CTestConfig.cmake
 
 - Add test:
     Have a look at Example in $FCCSW/Reconstruction/
@@ -16,7 +22,8 @@ ctest -D Experimental
         gaudi_add_test(QMTest QMTEST)
         QMTest is a testing module with extended functionality.
     2.) The QMTest itself is expected to be in $FCCSW/PACKAGE/tests/qmtest/
-        Tests in package.qms (all small letters) will be executed automatically if the QMTest module is added.
+        Tests in package.qms (all small letters) will be executed automatically 
+        if the QMTest module is added.
         Example test is in reconstruction_example.qmt
 
     For additional information, option and features of QMTest see: 
